@@ -54,12 +54,12 @@ app.get('/*', async (req, res) => {
         //}
         //console.log("setcl")
         //res.set('content-length',response.headers.get('content-length'))
-        console.log("setct")
+        //console.log("setct")
         //res.set('content-type',response.headers.get('content-type'))
 
         //res.send(await response.body,200)
         //res.status(response.status)
-        res.contentType(response.headers.get('content-type'));
+        //res.contentType(response.headers.get('content-type'));
         //res.end(await response.text(),'binary');
         //res.end(await response.text(),'binary');
         //res.end(await response.body ,'binary');
