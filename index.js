@@ -52,6 +52,7 @@ app.get('/*', async (req, res) => {
         //for (const hdridx in hdrkeys) {
         //    res.header(hdrkeys[hdridx], response.headers[hdrkeys[hdridx]]);
         //}
+
         res.set(response.headers)
         res.send(response.body,200)
     } catch (error) {
