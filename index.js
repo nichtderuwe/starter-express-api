@@ -60,7 +60,8 @@ app.get('/*', async (req, res) => {
         //res.send(await response.body,200)
         res.status(response.status)
         
-        res.send(await response.text())
+        //res.send(await response.text())
+        return new Response(data, { headers: { 'content-type': response.headers.get('content-type') } });
     } catch (error) {
         console.log("got err: "+error)
         res.status(500).json({ error: 'Internal Server Error' });
