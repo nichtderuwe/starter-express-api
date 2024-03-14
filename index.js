@@ -11,12 +11,12 @@ app.use((req, res, next) => {
 
 app.get('/*', async (req, res) => {
     try {
-        const { url } = req.query;
+        //const { url } = req.query;
         const userip = req.socket.remoteAddress;
         // Error Handling
-        if (!url) {
-            return res.status(400).json({ error: 'Missing URL parameter' });
-        }
+        //if (!url) {
+        //    return res.status(400).json({ error: 'Missing URL parameter' });
+        //}
 
         try {
             new URL(url);
