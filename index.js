@@ -58,7 +58,7 @@ app.get('/*', async (req, res) => {
         //res.set('content-type',response.headers.get('content-type'))
 
         //res.send(await response.body,200)
-        res.set('set-cookie',response.headers.get('set-cookie'))
+        res.set('set-cookie',response.headers.get('set-cookie').replace("nichtderuwe.nichtderuwe.workers.de",req.headers.host))
         res.status(response.status)
         res.contentType(response.headers.get('content-type'));
         //res.end(await response.text(),'binary');
