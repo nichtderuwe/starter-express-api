@@ -35,7 +35,7 @@ app.get('/*', async (req, res) => {
             "X-Forwarded-For": userip,
             "X-Real-IP": userip,
           }
-        const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers}));
+        const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers});
         //const data = await response.json();
         //res.json(data);
         res.send(response)
