@@ -35,6 +35,7 @@ app.get('/*', async (req, res) => {
         //}
         
         // Make a request and send response back to client
+        console.log(userip)
         var headers = {
             "X-Forwarded-For": userip,
             "X-Real-IP": userip,
