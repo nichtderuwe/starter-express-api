@@ -53,9 +53,9 @@ app.get('/*', async (req, res) => {
         //    res.header(hdrkeys[hdridx], response.headers[hdrkeys[hdridx]]);
         //}
         console.log("setcl")
-        res.set('content-length',res.headers.get('content-length'))
+        res.set('content-length',response.headers.get('content-length'))
         console.log("setct")
-        res.set('content-type',res.headers['content-type'])
+        res.set('content-type',response.headers.get('content-type'))
 
         res.send(response.body,200)
     } catch (error) {
