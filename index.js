@@ -52,8 +52,9 @@ app.get('/*', async (req, res) => {
         //for (const hdridx in hdrkeys) {
         //    res.header(hdrkeys[hdridx], response.headers[hdrkeys[hdridx]]);
         //}
-
+        console.log("setcl")
         res.set('content-length',res.headers['content-length'])
+        console.log("setct")
         res.set('content-type',res.headers['content-type'])
 
         res.send(response.body,200)
