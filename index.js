@@ -77,7 +77,8 @@ app.get('/*', async (req, res) => {
         //
         //return
         //res.end( await  response.arrayBuffer(),'binary')
-        response.body.pipeTo(res)
+        //response.body.pipeTo(res)
+        res.end(await response.body.transformToByteArray() , 'binary')
     } catch (error) {
         console.log("got err: "+error)
         res.status(500).json({ error: 'Internal Server Error' });
