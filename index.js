@@ -52,16 +52,17 @@ app.get('/*', async (req, res) => {
         //for (const hdridx in hdrkeys) {
         //    res.header(hdrkeys[hdridx], response.headers[hdrkeys[hdridx]]);
         //}
-        console.log("setcl")
-        res.set('content-length',response.headers.get('content-length'))
-        console.log("setct")
-        res.set('content-type',response.headers.get('content-type'))
+        //console.log("setcl")
+        //res.set('content-length',response.headers.get('content-length'))
+        //console.log("setct")
+        //res.set('content-type',response.headers.get('content-type'))
 
         //res.send(await response.body,200)
         //res.status(response.status)
         
         //res.send(await response.text())
-        myresponse= new Response(response.body, { headers: { 'content-type': response.headers.get('content-type') } });
+        myresponse= new Response(response, { headers: { 'content-type': response.headers.get('content-type') } });
+        //myresponse.headers["content-type"]
         return myresponse;
     } catch (error) {
         console.log("got err: "+error)
