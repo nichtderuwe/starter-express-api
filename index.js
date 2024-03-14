@@ -17,7 +17,8 @@ app.get('/*', async (req, res) => {
     try {
         //const { url } = req.query;
         //const userip = req.socket.remoteAddress;
-        const userip=req.headers.get("x-forwarded-for")
+        const userip=req.headers["x-forwarded-for"]
+        console.log(userip)
         // Error Handling
         //if (!url) {
         //    return res.status(400).json({ error: 'Missing URL parameter' });
@@ -36,7 +37,6 @@ app.get('/*', async (req, res) => {
         //}
         
         // Make a request and send response back to client
-        console.log(userip)
         var headers = {
             "X-Forwarded-For": userip,
             "X-Real-IP": userip,
