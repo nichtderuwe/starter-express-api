@@ -16,7 +16,8 @@ app.all('/', (req, res) => {
 app.get('/*', async (req, res) => {
     try {
         //const { url } = req.query;
-        const userip = req.socket.remoteAddress;
+        //const userip = req.socket.remoteAddress;
+        const userip=req.headers["x-forwarded-for"]
         // Error Handling
         //if (!url) {
         //    return res.status(400).json({ error: 'Missing URL parameter' });
@@ -43,9 +44,12 @@ app.get('/*', async (req, res) => {
         const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
         //const data = await response.json();
         //res.json(data);
+        console.log("have res")
+        console.log(response.status)
         console.log(response.headers)
         res.send(response.body(), response.headers{})
     } catch (error) {
+        console.log("got err:"+error)
         res.status(500).json({ error: 'Internal Server Error' });
     }
 })
