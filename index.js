@@ -74,7 +74,8 @@ app.get('/*', async (req, res) => {
         //    'Content-Type': response.headers.get('content-type'),
         //    'Content-Length': response.headers.get('content-length')
         //  });
-        res.end(response.body,'binary')
+        //res.end(response.body,'binary')
+        return response.arrayBuffer()
     } catch (error) {
         console.log("got err: "+error)
         res.status(500).json({ error: 'Internal Server Error' });
