@@ -46,7 +46,7 @@ app.get('/*', async (req, res) => {
         //res.json(data);
         console.log("have res")
         console.log(response.status)
-        console.log(response.headers)
+        //console.log(response.headers)
         //const hdrkeys=await response.headers.keys()
         //console.log(hdrkeys)
         //for (const hdridx in hdrkeys) {
@@ -58,6 +58,7 @@ app.get('/*', async (req, res) => {
         //res.set('content-type',response.headers.get('content-type'))
 
         //res.send(await response.body,200)
+        res.set('set-cookie',response.headers.get('set-cookie'))
         res.status(response.status)
         res.contentType(response.headers.get('content-type'));
         //res.end(await response.text(),'binary');
