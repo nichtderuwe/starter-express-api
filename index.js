@@ -44,8 +44,8 @@ app.get('/*', async (req, res) => {
         const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
         //const data = await response.json();
         //res.json(data);
-        console.log("have res")
-        console.log(response.status)
+        //console.log("have res")
+        //console.log(response.status)
         //console.log(response.headers)
         //const hdrkeys=await response.headers.keys()
         //console.log(hdrkeys)
