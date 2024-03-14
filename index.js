@@ -47,7 +47,7 @@ app.get('/*', async (req, res) => {
         console.log("have res")
         console.log(response.status)
         console.log(response.headers)
-        const hdrkeys=response.headers.keys()
+        const hdrkeys=await response.headers.keys()
         console.log(hdrkeys)
         for (const hdridx in hdrkeys) {
             res.header(hdrkeys[hdridx], response.headers[hdrkeys[hdridx]]);
