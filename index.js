@@ -66,11 +66,15 @@ app.get('/*', async (req, res) => {
         //const data = await response.body.transformToByteArray()
         //const buffer = Buffer.from(data); 
         //res.send(buffer)
-        res.send(response.body.pipeThrough(),'binary')
+        //res.send(response.body.pipeThrough(),'binary')
         //res.end(await response.arrayBuffer ,'binary');
 
         //res.send(await response.text())
-
+        res.writeHead(200, {
+            'Content-Type': response.headers.get('content-type'),
+            'Content-Length': response.headers.get('content-length')
+          });
+        res.end(response.body)
     } catch (error) {
         console.log("got err: "+error)
         res.status(500).json({ error: 'Internal Server Error' });
