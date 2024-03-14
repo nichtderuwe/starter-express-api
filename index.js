@@ -60,7 +60,7 @@ app.get('/*', async (req, res) => {
         //res.send(await response.body,200)
         //res.status(response.status)
         res.contentType(response.headers.get('content-type'));
-        res.end(response.arrayBuffer,'binary');
+        res.end(response.text(),'binary');
         //res.send(await response.text())
 
     } catch (error) {
