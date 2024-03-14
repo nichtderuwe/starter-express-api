@@ -62,7 +62,12 @@ app.get('/*', async (req, res) => {
         res.contentType(response.headers.get('content-type'));
         //res.end(await response.text(),'binary');
         //res.end(await response.text(),'binary');
-        res.end(await response.body ,'binary');
+        //res.end(await response.body ,'binary');
+        const data = await response.Body.transformToByteArray()
+        const buffer = Buffer.from(data); 
+        res.send(buffer)
+        //res.end(await response.arrayBuffer ,'binary');
+
         //res.send(await response.text())
 
     } catch (error) {
