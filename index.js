@@ -47,7 +47,7 @@ app.get('/*', async (req, res) => {
         console.log("have res")
         console.log(response.status)
         console.log(response.headers)
-        res.send(response.body(), response.headers{})
+        res.send(response.body(), response.headers)
     } catch (error) {
         console.log("got err: "+error)
         res.status(500).json({ error: 'Internal Server Error' });
