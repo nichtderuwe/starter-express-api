@@ -48,5 +48,6 @@ app.all('/', (req, res) => {
     res.send('nope');
 })
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
+//const PORT = process.env.PORT || 3000;
+//app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
+app.listen(process.env.PORT || 3000)
