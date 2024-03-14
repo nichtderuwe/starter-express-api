@@ -23,7 +23,7 @@ app.get('/*', async (req, res) => {
         //}
 
         try {
-            new URL(url);
+            new URL("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl);
         } catch (error) {
             return res.status(400).json({ error: 'Invalid URL' });
         }
