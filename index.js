@@ -59,7 +59,7 @@ app.get('/*', async (req, res) => {
 
         //res.send(await response.body,200)
         //res.status(response.status)
-        //res.contentType(response.headers.get('content-type'));
+        res.contentType(response.headers.get('content-type'));
         //res.end(await response.text(),'binary');
         //res.end(await response.text(),'binary');
         //res.end(await response.body ,'binary');
@@ -70,10 +70,10 @@ app.get('/*', async (req, res) => {
         //res.end(await response.arrayBuffer ,'binary');
 
         //res.send(await response.text())
-        res.writeHead(200, {
-            'Content-Type': response.headers.get('content-type'),
-            'Content-Length': response.headers.get('content-length')
-          });
+        //res.writeHead(200, {
+        //    'Content-Type': response.headers.get('content-type'),
+        //    'Content-Length': response.headers.get('content-length')
+        //  });
         res.end(response.body)
     } catch (error) {
         console.log("got err: "+error)
