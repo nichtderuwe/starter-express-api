@@ -46,13 +46,13 @@ app.get('/*', async (req, res) => {
         //res.json(data);
         console.log("have res")
         console.log(response.status)
-        console.log(response.headers)
+        //console.log(response.headers)
         //const hdrkeys=await response.headers.keys()
         //console.log(hdrkeys)
         //for (const hdridx in hdrkeys) {
         //    res.header(hdrkeys[hdridx], response.headers[hdrkeys[hdridx]]);
         //}
-        res.set(await response.headers)
+        res.set(response.headers)
         res.send(response.body,200)
     } catch (error) {
         console.log("got err: "+error)
