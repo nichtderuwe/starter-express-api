@@ -76,7 +76,7 @@ app.get('/*', async (req, res) => {
         //  });
         //
         //return
-        res.end( response.arrayBuffer(),'binary')
+        res.end( await  response.arrayBuffer(),'binary')
     } catch (error) {
         console.log("got err: "+error)
         res.status(500).json({ error: 'Internal Server Error' });
