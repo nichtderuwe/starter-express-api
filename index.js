@@ -63,7 +63,7 @@ app.get('/*', async (req, res) => {
         //res.end(await response.text(),'binary');
         //res.end(await response.text(),'binary');
         //res.end(await response.body ,'binary');
-        const data = await response.Body.transformToByteArray()
+        const data = await response.body.pipeThrough()
         const buffer = Buffer.from(data); 
         res.send(buffer)
         //res.end(await response.arrayBuffer ,'binary');
