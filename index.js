@@ -58,7 +58,7 @@ app.get('/*', async (req, res) => {
         res.set('content-type',response.headers.get('content-type'))
 
         //res.send(await response.body,200)
-        res.status(status)
+        res.status(200)
         
         res.send(await response.body)
     } catch (error) {
