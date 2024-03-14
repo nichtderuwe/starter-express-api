@@ -53,7 +53,9 @@ app.get('/*', async (req, res) => {
         //    res.header(hdrkeys[hdridx], response.headers[hdrkeys[hdridx]]);
         //}
 
-        res.set(response.headers)
+        res.set('content-length',res.headers['content-length'])
+        res.set('content-type',res.headers['content-type'])
+
         res.send(response.body,200)
     } catch (error) {
         console.log("got err: "+error)
