@@ -9,6 +9,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.all('/', (req, res) => {
+    res.send('nope');
+})
+
 app.get('/*', async (req, res) => {
     try {
         //const { url } = req.query;
@@ -44,9 +48,6 @@ app.get('/*', async (req, res) => {
     }
 })
 
-app.all('/', (req, res) => {
-    res.send('nope');
-})
 
 //const PORT = process.env.PORT || 3000;
 //app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
