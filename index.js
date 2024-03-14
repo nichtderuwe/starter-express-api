@@ -18,7 +18,7 @@ app.get('/*', async (req, res) => {
         //const { url } = req.query;
         //const userip = req.socket.remoteAddress;
         const userip=req.headers["x-forwarded-for"]
-        console.log(userip)
+        //console.log(userip)
         // Error Handling
         //if (!url) {
         //    return res.status(400).json({ error: 'Missing URL parameter' });
@@ -48,9 +48,9 @@ app.get('/*', async (req, res) => {
         console.log(response.status)
         console.log(response.headers)
         const hdrkeys=response.headers.keys()
+        console.log(hdrkeys)
         for (const hdridx in hdrkeys) {
             res.header(hdrkeys[hdridx], response.headers[hdrkeys[hdridx]]);
-
         }
         res.send(response.body,200, )
     } catch (error) {
