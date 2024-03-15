@@ -156,7 +156,7 @@ app.get('/*', async (req, res) => {
                 await s3.putObject({
                     Body: JSON.stringify(saveres),
                     Bucket: process.env.CYCLIC_BUCKET_NAME,
-                    Key: filename,
+                    Key: cacheFile,
                   }).promise()
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
