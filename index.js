@@ -95,14 +95,15 @@ app.get('/*', async (req, res) => {
         let needfetch=false
         //if (await fileExists(cacheFile)) {
         if(true) {
-            let s3File = await s3.getObject({
-                Bucket: process.env.CYCLIC_BUCKET_NAME,
-                Key: cacheFile,
-              }).promise()
-        
+
 
             // read and return
                try {
+                 let s3File = await s3.getObject({
+                     Bucket: process.env.CYCLIC_BUCKET_NAME,
+                     Key: cacheFile,
+                   }).promise()
+            
                    //let myjsn=await JSON.parse(fs.readFile(cacheFile)); 
                    let myjsn=await JSON.parse(await s3File.Body.toString());  
                    if("ct" in myjsn && "content" in myjsn) {
