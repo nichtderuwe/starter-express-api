@@ -122,7 +122,7 @@ app.get('/*', async (req, res) => {
                              const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
                        console.log("background fetch res: "+response.status)
                     })
-                    res.end(await atou(myjsn.content), 'binary')
+                    res.end(await atob (myjsn.content), 'binary')
                        //res.send(s3File.Body.toString()).end()
 
                      
