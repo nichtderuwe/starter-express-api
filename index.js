@@ -1,8 +1,11 @@
 const express = require('express');
-//const fs = require('fs');
-const fs = require('@cyclic.sh/s3fs') 
-
 const app = express();
+//const fs = require('fs');
+//const fs = require('@cyclic.sh/s3fs') 
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3()
+const bodyParser = require('body-parser');
+
 
 // Add CORS headers
 app.use((req, res, next) => {
@@ -90,14 +93,23 @@ app.get('/*', async (req, res) => {
             }
         };
         let needfetch=false
-        if (await fileExists(cacheFile)) {
-            console.log("cache found")
+        //if (await fileExists(cacheFile)) {
+        if(true) {
+            let s3File = await s3.getObject({
+                Bucket: process.env.BUCKET,
+                Key: cacheFile,
+              }).promise()
+        
+
             // read and return
                try {
-                   let myjsn=await JSON.parse(fs.readFile(cacheFile));  
+                   //let myjsn=await JSON.parse(fs.readFile(cacheFile)); 
+                   let myjsn=await JSON.parse(await s3File.Body.toString());  
                    if("ct" in myjsn && "content" in myjsn) {
-                     res.contentType(response.headers.get('content-type'));
-                     res.status(200)
+                    console.log("cache found")
+                    res.contentType(myjsn.ct);
+                    // res.set('Content-type', s3File.ContentType)
+//                     res.status(200)
                     res.on('finish', () => {
                        console.log("background fetch")
                                 var headers = {
@@ -107,7 +119,9 @@ app.get('/*', async (req, res) => {
                              const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
                        console.log("background fetch res: "+response.status)
                     })
-                     res.end(await atou(myjsn.content), 'binary')
+                    res.end(await atou(myjsn.content), 'binary')
+                       //res.send(s3File.Body.toString()).end()
+
                      
                    } else { needfetch=true }
                } catch (e) { 
@@ -136,8 +150,13 @@ app.get('/*', async (req, res) => {
                 }
                 let saveres={ct: response.headers.get('content-type') ,content: utoa(await response.clone().text())}
                 //await fs.writeFile(cacheFile, await JSON.stringify(saveres), (err) => err && console.log("cache_save_ERR: "+err) );
-                await fs.writeFile(cacheFile, await JSON.stringify(saveres) );
-                if (await fileExists(cacheFile)) { console.log("cache saved") }
+                //await fs.writeFile(cacheFile, await JSON.stringify(saveres) );
+                //if (await fileExists(cacheFile)) { console.log("cache saved") }
+                await s3.putObject({
+                    Body: JSON.stringify(saveres),
+                    Bucket: process.env.BUCKET,
+                    Key: filename,
+                  }).promise()
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
                 const buffer = Buffer.from(await response.arrayBuffer());
