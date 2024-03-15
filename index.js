@@ -70,19 +70,67 @@ app.get('/*', async (req, res) => {
         //res.end( await  response.arrayBuffer(),'binary')
         //response.body.pipeTo(res)
         // Make a request and send response back to client
-        var headers = {
-            "X-Forwarded-For": userip,
-            "X-Real-IP": userip,
-          }
-        const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
-        if(response.headers.get('set-cookie')!=null) { 
-            res.set('set-cookie',response.headers.get('set-cookie').replace("nichtderuwe.nichtderuwe.workers.dev",req.headers.host)) 
-         }
-        res.status(response.status)
-        res.contentType(response.headers.get('content-type'));
-        const buffer = Buffer.from(await response.arrayBuffer());
-        res.end(buffer, 'binary')
-        //res.end(await response.body.getReader() , 'binary')
+
+        const cacheFile="/tmp/"+btoa(req.originalUrl)".json"
+        const fileExists = async (file) => {
+            try {
+                await fs.access(file, constants.F_OK);
+                return true;
+            }catch(e) {
+                return false;
+            }
+        };
+        let needfetch=false
+        if (await fileExists(cacheFile)) {
+            // read and return
+               try {
+                   let myjsn=await JSON.parse(fs.readFile(cacheFile));  
+                   if("ct" in myjsn && "content" in myjsn) {
+                     res.contentType(response.headers.get('content-type'));
+                     res.status(200)
+                    res.on('finish', () => {
+                       console.log("background fetch")
+                                var headers = {
+                              "X-Forwarded-For": userip,
+                              "X-Real-IP": userip,
+                               }
+                             const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
+                       console.log("background fetch res: "+response.status)
+                    })
+                     res.end(await atob(myjsn.content), 'binary')
+                     
+                   } else { needfetch=true }
+               } catch (e) { 
+               console.log("cached_err:"+e)
+               needfetch=true
+               }
+        }else {
+        needfetch=true
+        }
+        if(needfetch) {
+                // not cached
+                 var headers = {
+                 "X-Forwarded-For": userip,
+                 "X-Real-IP": userip,
+                  }
+                const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
+                if(response.headers.get('set-cookie')!=null) { 
+                    res.set('set-cookie',response.headers.get('set-cookie').replace("nichtderuwe.nichtderuwe.workers.dev",req.headers.host)) 
+                 }
+                if(response.status==200) {
+                     
+                   // res.on('finish', () => {
+                   //    console.log("saving cache in background")
+                   //    
+                   // })
+                }
+                let saveres={ct: response.headers.get('content-type') ,content: btoa(await response.clone.text())}
+                await fs.writeFile(cacheFile, await JSON.stringify(saveres));
+                res.status(response.status)
+                res.contentType(response.headers.get('content-type'));
+                const buffer = Buffer.from(await response.arrayBuffer());
+                res.end(buffer, 'binary')
+                }
     } catch (error) {
         console.log("got err: "+error)
         res.status(500).json({ error: 'Internal Server Error' });
