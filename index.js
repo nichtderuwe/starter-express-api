@@ -82,7 +82,7 @@ app.get('/*', async (req, res) => {
         function utoa(data) {
             return btoa(unescape(encodeURIComponent(data)));
           }
-        const cacheFile="cache/"+utoa(req.originalUrl).replace("=","_").replace("/","_").replace("+","_")+".json"
+        const cacheFile="cache/"+utoa(req.originalUrl).replace("=","_").replace("/","_").replace("+","_")+".tst1.json"
         console.log("searching cache:"+cacheFile)
         const fileExists = async (file) => {
             try {
@@ -154,7 +154,7 @@ app.get('/*', async (req, res) => {
                    //    
                    // })
                 }
-                let saveres={ct: response.headers.get('content-type') ,content: utoa(await response.clone().text())}
+                let saveres={ct: response.headers.get('content-type') ,content: btoa(unescape(encodeURIComponent(await response.clone().text())))}
                 //await fs.writeFile(cacheFile, await JSON.stringify(saveres), (err) => err && console.log("cache_save_ERR: "+err) );
                 //await fs.writeFile(cacheFile, await JSON.stringify(saveres) );
                 //if (await fileExists(cacheFile)) { console.log("cache saved") }
