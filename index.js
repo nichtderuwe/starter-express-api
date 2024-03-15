@@ -174,7 +174,7 @@ app.get('/*', async (req, res) => {
                     Bucket: process.env.CYCLIC_BUCKET_NAME,
                     Key: cacheFile+".ct",
                   }).promise()
-                let save = await cache.set(crypto.createHash('md5').update(req.originalUrl).digest("hex"), { ct: response.headers['content-type'], content: btoa(unescape(encodeURIComponent(await response.clone().text()))) })
+                //let save = await cache.set(crypto.createHash('md5').update(req.originalUrl).digest("hex"), { ct: response.headers['content-type'], content: btoa(unescape(encodeURIComponent(await response.clone().text()))) })
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
                 const buffer = Buffer.from(await response.arrayBuffer());
