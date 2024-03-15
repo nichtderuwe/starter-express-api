@@ -71,7 +71,7 @@ app.get('/*', async (req, res) => {
         //response.body.pipeTo(res)
         // Make a request and send response back to client
 
-        const cacheFile="/tmp/"+btoa(req.originalUrl)+".json"
+        const cacheFile="/tmp/"+btoa(req.originalUrl).replace("=","_").replace("/","_").replace("+","_")+".json"
         const fileExists = async (file) => {
             try {
                 await fs.access(file, constants.F_OK);
