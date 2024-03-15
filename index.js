@@ -94,7 +94,7 @@ app.get('/*', async (req, res) => {
                               "X-Forwarded-For": userip,
                               "X-Real-IP": userip,
                                }
-                             const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
+                             const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
                        console.log("background fetch res: "+response.status)
                     })
                      res.end(await atob(myjsn.content), 'binary')
