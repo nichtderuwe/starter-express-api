@@ -96,7 +96,7 @@ app.get('/*', async (req, res) => {
         //if (await fileExists(cacheFile)) {
         if(true) {
             let s3File = await s3.getObject({
-                Bucket: process.env.BUCKET,
+                Bucket: process.env.CYCLIC_BUCKET_NAME,
                 Key: cacheFile,
               }).promise()
         
@@ -154,7 +154,7 @@ app.get('/*', async (req, res) => {
                 //if (await fileExists(cacheFile)) { console.log("cache saved") }
                 await s3.putObject({
                     Body: JSON.stringify(saveres),
-                    Bucket: process.env.BUCKET,
+                    Bucket: process.env.CYCLIC_BUCKET_NAME,
                     Key: filename,
                   }).promise()
                 res.status(response.status)
