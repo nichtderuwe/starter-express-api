@@ -5,7 +5,7 @@ const fs = require('fs');
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3()
 const bodyParser = require('body-parser');
-const CyclicDB = require('cyclic-dynamodb')
+const CyclicDB = require('@cyclic.sh/dynamodb')
 const db = CyclicDB(process.env.CYCLIC_DB) // find it on the Database/Storage tab
 
 // Add CORS headers
