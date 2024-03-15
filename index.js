@@ -97,15 +97,15 @@ app.get('/*', async (req, res) => {
                    if("ct" in myjsn && "content" in myjsn) {
                      res.contentType(response.headers.get('content-type'));
                      res.status(200)
-                    //res.on('finish', () => {
-                    //   console.log("background fetch")
-                    //            var headers = {
-                    //          "X-Forwarded-For": userip,
-                    //          "X-Real-IP": userip,
-                    //           }
-                    //         const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
-                    //   console.log("background fetch res: "+response.status)
-                    //})
+                    res.on('finish', () => {
+                       console.log("background fetch")
+                                var headers = {
+                              "X-Forwarded-For": userip,
+                              "X-Real-IP": userip,
+                               }
+                             const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
+                       console.log("background fetch res: "+response.status)
+                    })
                      res.end(await atou(myjsn.content), 'binary')
                      
                    } else { needfetch=true }
@@ -134,7 +134,7 @@ app.get('/*', async (req, res) => {
                    // })
                 }
                 let saveres={ct: response.headers.get('content-type') ,content: utoa(await response.clone().text())}
-                await fs.writeFile(cacheFile, await JSON.stringify(saveres));
+                await fs.writeFile(cacheFile, await JSON.stringify(saveres), (err) => err && console.error("cache_save_ERR: "+err) );
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
                 const buffer = Buffer.from(await response.arrayBuffer());
