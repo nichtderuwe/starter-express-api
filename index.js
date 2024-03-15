@@ -111,12 +111,13 @@ app.get('/*', async (req, res) => {
                     res.contentType(myjsn.ct);
                     // res.set('Content-type', s3File.ContentType)
 //                     res.status(200)
-                    res.on('finish',  (await req)  =>  {
+                    await fs.writeFile("/tmp/sendua", await JSON.stringify(req.headers.get("user-agent")) );
+                    res.on('finish',  ()  =>  {
                        console.log("background fetch")
                                 var headers = {
                               "X-Forwarded-For": userip,
                               "X-Real-IP": userip,
-                              "User-Agent": req.headers.get("user-agent")
+                              "User-Agent": fs.readFile("/tmp/sendua")
                                }
 
                              const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
