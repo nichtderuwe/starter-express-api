@@ -82,6 +82,7 @@ app.get('/*', async (req, res) => {
         };
         let needfetch=false
         if (await fileExists(cacheFile)) {
+            console.log("cache found")
             // read and return
                try {
                    let myjsn=await JSON.parse(fs.readFile(cacheFile));  
@@ -104,7 +105,7 @@ app.get('/*', async (req, res) => {
                console.log("cached_err:"+e)
                needfetch=true
                }
-        }else {
+        } else {
         needfetch=true
         }
         if(needfetch) {
