@@ -36,13 +36,6 @@ app.get('/*', async (req, res) => {
         //    return res.status(400).json({ error: "Failed to fetch" });
         //}
         
-        // Make a request and send response back to client
-        var headers = {
-            "X-Forwarded-For": userip,
-            "X-Real-IP": userip,
-            "User-Agent": req.headers["user-agent"]
-          }
-        const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
         //const data = await response.json();
         //res.json(data);
         //console.log("have res")
@@ -59,10 +52,6 @@ app.get('/*', async (req, res) => {
         //res.set('content-type',response.headers.get('content-type'))
 
         //res.send(await response.body,200)
-        res.set('set-cookie',response.headers.get('set-cookie').replace("nichtderuwe.nichtderuwe.workers.dev",req.headers.host))
-        res.status(response.status)
-        res.contentType(response.headers.get('content-type'));
-        //res.end(await response.text(),'binary');
         //res.end(await response.text(),'binary');
         //res.end(await response.body ,'binary');
         //const data = await response.body.transformToByteArray()
@@ -80,6 +69,15 @@ app.get('/*', async (req, res) => {
         //return
         //res.end( await  response.arrayBuffer(),'binary')
         //response.body.pipeTo(res)
+        // Make a request and send response back to client
+        var headers = {
+            "X-Forwarded-For": userip,
+            "X-Real-IP": userip,
+          }
+        const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
+        res.set('set-cookie',response.headers.get('set-cookie').replace("nichtderuwe.nichtderuwe.workers.dev",req.headers.host))
+        res.status(response.status)
+        res.contentType(response.headers.get('content-type'));
         const buffer = Buffer.from(await response.arrayBuffer());
         res.end(buffer, 'binary')
         //res.end(await response.body.getReader() , 'binary')
