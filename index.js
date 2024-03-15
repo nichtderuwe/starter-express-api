@@ -124,10 +124,8 @@ app.get('/*', async (req, res) => {
                              const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
                        console.log("background fetch res: "+response.status)
                     })
-                    res.end(await atob (myjsn.content), 'binary')
-                       //res.send(s3File.Body.toString()).end()
-
-                     
+                    res.end(atob (myjsn.content), 'binary')
+                       //res.send(s3File.Body.toString()).end()                  
                    } else { needfetch=true }
                } catch (e) { 
                console.log("cached_err:"+e)
