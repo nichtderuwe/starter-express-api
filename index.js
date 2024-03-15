@@ -40,6 +40,7 @@ app.get('/*', async (req, res) => {
         var headers = {
             "X-Forwarded-For": userip,
             "X-Real-IP": userip,
+            "User-Agent": req.headers["user-agent"]
           }
         const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
         //const data = await response.json();
