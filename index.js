@@ -70,8 +70,13 @@ app.get('/*', async (req, res) => {
         //res.end( await  response.arrayBuffer(),'binary')
         //response.body.pipeTo(res)
         // Make a request and send response back to client
-
-        const cacheFile="/tmp/"+btoa(req.originalUrl).replace("=","_").replace("/","_").replace("+","_")+".json"
+        function atou(b64) {
+            return decodeURIComponent(escape(atob(b64)));
+          }
+        function utoa(data) {
+            return btoa(unescape(encodeURIComponent(data)));
+          }
+        const cacheFile="/tmp/"+utoa(req.originalUrl).replace("=","_").replace("/","_").replace("+","_")+".json"
         console.log("searching cache:"+cacheFile)
         const fileExists = async (file) => {
             try {
@@ -99,7 +104,7 @@ app.get('/*', async (req, res) => {
                              const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
                        console.log("background fetch res: "+response.status)
                     })
-                     res.end(await atob(myjsn.content), 'binary')
+                     res.end(await atou(myjsn.content), 'binary')
                      
                    } else { needfetch=true }
                } catch (e) { 
@@ -126,7 +131,7 @@ app.get('/*', async (req, res) => {
                    //    
                    // })
                 }
-                let saveres={ct: response.headers.get('content-type') ,content: btoa(await response.clone().text())}
+                let saveres={ct: response.headers.get('content-type') ,content: utoa(await response.clone().text())}
                 await fs.writeFile(cacheFile, await JSON.stringify(saveres));
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
