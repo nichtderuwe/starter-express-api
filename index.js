@@ -103,12 +103,17 @@ app.get('/*', async (req, res) => {
                      Bucket: process.env.CYCLIC_BUCKET_NAME,
                      Key: cacheFile,
                    }).promise()
-            
+                  let s3FileCT = await s3.getObject({
+                    Bucket: process.env.CYCLIC_BUCKET_NAME,
+                    Key: cacheFile+".ct",
+                  }).promise()
                    //let myjsn=await JSON.parse(fs.readFile(cacheFile)); 
-                   let myjsn=await JSON.parse(await s3File.Body.toString());  
-                   if("ct" in myjsn && "content" in myjsn) {
+                   //let myjsn=await JSON.parse(await s3File.Body.toString());  
+                   let myct=s3FileCT.Body.toString()
+                   //if("ct" in myjsn && "content" in myjsn) {
+                  if(myct.startsWith("image")) {
                     console.log("cache found")
-                    res.contentType(myjsn.ct);
+                    res.contentType(myct);
                     // res.set('Content-type', s3File.ContentType)
 //                     res.status(200)
                     //await fs.writeFile("/tmp/sendua", await JSON.stringify(req.headers["user-agent"]) );
@@ -124,7 +129,7 @@ app.get('/*', async (req, res) => {
                              const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
                        console.log("background fetch res: "+response.status)
                     })
-                    res.end(atob (myjsn.content), 'binary')
+                    res.end(s3File.Body.toString(), 'binary')
                        //res.send(s3File.Body.toString()).end()                  
                    } else { needfetch=true }
                } catch (e) { 
@@ -152,14 +157,19 @@ app.get('/*', async (req, res) => {
                    //    
                    // })
                 }
-                let saveres={ct: response.headers.get('content-type') ,content: btoa(unescape(encodeURIComponent(await response.clone().text())))}
+                let saveres={ct: response.headers['content-type'] ,content: btoa(unescape(encodeURIComponent(await response.clone().text())))}
                 //await fs.writeFile(cacheFile, await JSON.stringify(saveres), (err) => err && console.log("cache_save_ERR: "+err) );
                 //await fs.writeFile(cacheFile, await JSON.stringify(saveres) );
                 //if (await fileExists(cacheFile)) { console.log("cache saved") }
                 await s3.putObject({
-                    Body: JSON.stringify(saveres),
+                    Body: JSON.stringify(await response.clone().body),
                     Bucket: process.env.CYCLIC_BUCKET_NAME,
                     Key: cacheFile,
+                  }).promise()
+                await s3.putObject({
+                    Body: JSON.stringify(response.headers['content-type']),
+                    Bucket: process.env.CYCLIC_BUCKET_NAME,
+                    Key: cacheFile+".ct",
                   }).promise()
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
