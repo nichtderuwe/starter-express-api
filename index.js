@@ -116,7 +116,7 @@ app.get('/*', async (req, res) => {
                                 var headers = {
                               "X-Forwarded-For": userip,
                               "X-Real-IP": userip,
-                              "User-Agent": response.headers.get("user-agent")
+                              "User-Agent": req.headers.get("user-agent")
                                }
 
                              const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
@@ -139,7 +139,7 @@ app.get('/*', async (req, res) => {
                  var headers = {
                  "X-Forwarded-For": userip,
                  "X-Real-IP": userip,
-                 "User-Agent": response.headers.get("user-agent")
+                 "User-Agent": req.headers.get("user-agent")
                   }
                 const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
                 if(response.headers.get('set-cookie')!=null) { 
