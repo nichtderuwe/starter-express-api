@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-//const fs = require('fs');
+const fs = require('fs');
 //const fs = require('@cyclic.sh/s3fs') 
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3()
