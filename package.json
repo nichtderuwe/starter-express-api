@@ -18,6 +18,6 @@
   "homepage": "https://github.com/cyclic-software/starter-express-api#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "@cyclic.sh/s3fs": "^0.0.1",
+    "@cyclic.sh/s3fs": "^0.0.1"
   }
 }
