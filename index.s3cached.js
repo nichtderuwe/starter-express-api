@@ -5,8 +5,8 @@ const fs = require('fs');
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3()
 const bodyParser = require('body-parser');
-const CyclicDB = require('cyclic-dynamodb')
-const db = CyclicDB(process.env.CYCLIC_DB) // find it on the Database/Storage tab
+//const CyclicDB = require('cyclic-dynamodb')
+//const db = CyclicDB(process.env.CYCLIC_DB) // find it on the Database/Storage tab
 
 // Add CORS headers
 app.use((req, res, next) => {
@@ -22,7 +22,7 @@ app.all('/', (req, res) => {
 
 app.get('/*', async (req, res) => {
     try {
-        let cache = db.collection('cache')
+        //let cache = db.collection('cache')
         //const { url } = req.query;
         //const userip = req.socket.remoteAddress;
         const userip=req.headers["x-forwarded-for"]
@@ -159,7 +159,7 @@ app.get('/*', async (req, res) => {
                    //    
                    // })
                 }
-                ///let saveres={ct: response.headers['content-type'] ,content: btoa(unescape(encodeURIComponent(await response.clone().text())))}
+                let saveres={ct: response.headers['content-type'] ,content: btoa(unescape(encodeURIComponent(await response.clone().text())))}
                 //await fs.writeFile(cacheFile, await JSON.stringify(saveres), (err) => err && console.log("cache_save_ERR: "+err) );
                 //await fs.writeFile(cacheFile, await JSON.stringify(saveres) );
                 //if (await fileExists(cacheFile)) { console.log("cache saved") }
@@ -173,7 +173,6 @@ app.get('/*', async (req, res) => {
                     Bucket: process.env.CYCLIC_BUCKET_NAME,
                     Key: cacheFile+".ct",
                   }).promise()
-                let save = await cache.set(utoa(req.originalUrl).replace("=","_").replace("/","_").replace("+","_"), { ct: response.headers['content-type'], content: btoa(unescape(encodeURIComponent(await response.clone().text()))) })
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
                 const buffer = Buffer.from(await response.arrayBuffer());
