@@ -75,7 +75,9 @@ app.get('/*', async (req, res) => {
             "X-Real-IP": userip,
           }
         const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
-        res.set('set-cookie',response.headers.get('set-cookie').replace("nichtderuwe.nichtderuwe.workers.dev",req.headers.host))
+        if(response.headers.get('set-cookie')!=null) { 
+            res.set('set-cookie',response.headers.get('set-cookie').replace("nichtderuwe.nichtderuwe.workers.dev",req.headers.host)) 
+         }
         res.status(response.status)
         res.contentType(response.headers.get('content-type'));
         const buffer = Buffer.from(await response.arrayBuffer());
