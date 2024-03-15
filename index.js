@@ -124,7 +124,7 @@ app.get('/*', async (req, res) => {
                    //    
                    // })
                 }
-                let saveres={ct: response.headers.get('content-type') ,content: btoa(await response.clone.text())}
+                let saveres={ct: response.headers.get('content-type') ,content: btoa(await response.clone().text())}
                 await fs.writeFile(cacheFile, await JSON.stringify(saveres));
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
