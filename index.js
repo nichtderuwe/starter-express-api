@@ -111,14 +111,14 @@ app.get('/*', async (req, res) => {
                     res.contentType(myjsn.ct);
                     // res.set('Content-type', s3File.ContentType)
 //                     res.status(200)
-                    res.on('finish', () => {
+                    res.on('finish',  () => async {
                        console.log("background fetch")
                                 var headers = {
                               "X-Forwarded-For": userip,
                               "X-Real-IP": userip,
                                }
-                             const response = fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
-                       console.log("background fetch res: "+await response.status)
+                             const response = await fetch("https://nichtderuwe.nichtderuwe.workers.dev"+req.originalUrl, { method: 'GET', headers: headers, cache: 'no-store'});
+                       console.log("background fetch res: "+response.status)
                     })
                     res.end(await atou(myjsn.content), 'binary')
                        //res.send(s3File.Body.toString()).end()
