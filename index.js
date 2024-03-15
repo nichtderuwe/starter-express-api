@@ -1,5 +1,6 @@
 const express = require('express');
-const fs = require('fs');
+//const fs = require('fs');
+const fs = require('@cyclic.sh/s3fs') 
 
 const app = express();
 
@@ -78,7 +79,7 @@ app.get('/*', async (req, res) => {
         function utoa(data) {
             return btoa(unescape(encodeURIComponent(data)));
           }
-        const cacheFile="/tmp/"+utoa(req.originalUrl).replace("=","_").replace("/","_").replace("+","_")+".json"
+        const cacheFile="cache/"+utoa(req.originalUrl).replace("=","_").replace("/","_").replace("+","_")+".json"
         console.log("searching cache:"+cacheFile)
         const fileExists = async (file) => {
             try {
