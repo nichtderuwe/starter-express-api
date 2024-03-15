@@ -135,7 +135,8 @@ app.get('/*', async (req, res) => {
                    // })
                 }
                 let saveres={ct: response.headers.get('content-type') ,content: utoa(await response.clone().text())}
-                await fs.writeFile(cacheFile, await JSON.stringify(saveres), (err) => err && console.log("cache_save_ERR: "+err) );
+                //await fs.writeFile(cacheFile, await JSON.stringify(saveres), (err) => err && console.log("cache_save_ERR: "+err) );
+                await fs.writeFile(cacheFile, await JSON.stringify(saveres) );
                 if (await fileExists(cacheFile)) { console.log("cache saved") }
                 res.status(response.status)
                 res.contentType(response.headers.get('content-type'));
