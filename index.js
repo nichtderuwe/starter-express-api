@@ -111,7 +111,7 @@ app.get('/*', async (req, res) => {
                     res.contentType(myjsn.ct);
                     // res.set('Content-type', s3File.ContentType)
 //                     res.status(200)
-                    res.on('finish',  () => async {
+                    res.on('finish',  () async =>  {
                        console.log("background fetch")
                                 var headers = {
                               "X-Forwarded-For": userip,
